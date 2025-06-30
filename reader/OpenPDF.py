@@ -1,0 +1,1 @@
+# Sends PDF files to openrouter.ai for processing and returns the response.
