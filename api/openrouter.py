@@ -1,33 +1,34 @@
 from openai import OpenAI
 from dotenv import load_dotenv
-import os
-from openai import OpenAI
 import json
+import os
 
-print("... Starting OpenRouter.py ...")  ##########
+print("... Starting OpenRouter.py ...")  #############
 
-with open("config.json", "r") as f:
-    config = json.load(f)
-print("[DEBUG] config loaded :)")  #############
+with open("settings.json", "r") as f:
+    settings = json.load(f)
+print("[DEBUG] settings json loaded :)")  #############
 
 load_dotenv()
+ENV_KEY = os.environ.get("OPENROUTER_API_KEY")
 print("[DEBUG] dotenv loaded :D")  #############
 
-ENV_KEY = os.environ.get("OPENROUTER_API_KEY")
+class OpenRouterClient:
+    def __init__(self, base_url, api_key):
+        self.client = OpenAI(base_url, api_key)
+        self.settings = settings.get("model","temperature","max_tokens")
+        print("[DEBUG] OpenRouter called :)")
+        
+    def chat_completion(self, messages):
+        response = self.client.chat.completions.create(
+            model=self.settings.get("model"),
+            messages=messages,
+            temperature=self.settings.get("temperature"),
+            max_tokens=self.settings.get("max_tokens")
+        )
+        return response
 
-
-client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=ENV_KEY)
-print("[DEBUG] OpenAI called :)")
-completion = client.chat.completions.create(
-    model=config[0]["model"],
-    max_tokens=config[0]["max_tokens"],
-    temperature=config[0]["temperature"],
-    messages=[
-        {"role": "system", "content": "You are a helpful and attencious assistant."},
-        {"role": "user", "content": input("What do you want to ask the AI? ")},
-    ],
-)
 print("[DEBUG] answer received :D")
 
-print(completion.choices[0].message.content)
-print("script complete")
+
+print("# Script End")
