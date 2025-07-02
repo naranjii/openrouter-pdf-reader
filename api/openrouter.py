@@ -1,34 +1,37 @@
 from openai import OpenAI
-from dotenv import load_dotenv
 import json
 import os
 
-print("... Starting OpenRouter.py ...")  #############
+print("... Starting OpenRouter.py ...")  #############   Loads JSON strings
 
-with open("settings.json", "r") as f:
+SETTINGS_PATH = os.path.join(os.path.dirname(__file__), ".", "settings.json")
+with open(os.path.abspath(SETTINGS_PATH), "r") as f:
     settings = json.load(f)
+model = settings[0]["model"]
+temperature = settings[0]["temperature"]
+max_tokens = settings[0]["max_tokens"]
+print(
+    f"[DEBUG] settings loaded:\n model={model},\n temperature={temperature},\n max_tokens={max_tokens} :D"
+)  #############
 print("[DEBUG] settings json loaded :)")  #############
 
-load_dotenv()
-ENV_KEY = os.environ.get("OPENROUTER_API_KEY")
-print("[DEBUG] dotenv loaded :D")  #############
 
-class OpenRouterClient:
+class OpenRouter:                         #############  Class for OpenRouter methods
     def __init__(self, base_url, api_key):
-        self.client = OpenAI(base_url, api_key)
-        self.settings = settings.get("model","temperature","max_tokens")
+        self.client = OpenAI(base_url=base_url, api_key=api_key)
         print("[DEBUG] OpenRouter called :)")
         
     def chat_completion(self, messages):
         response = self.client.chat.completions.create(
-            model=self.settings.get("model"),
+            model=model,
             messages=messages,
-            temperature=self.settings.get("temperature"),
-            max_tokens=self.settings.get("max_tokens")
+            temperature=temperature,
+            max_tokens=max_tokens,
+            plugins=
+            
         )
+        
         return response
 
-print("[DEBUG] answer received :D")
 
-
-print("# Script End")
+print("[DEBUG] ... OpenRouter.py End ...")  #############
