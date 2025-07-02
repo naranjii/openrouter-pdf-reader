@@ -8,7 +8,7 @@
 <table>
   <tr>
     <td>
-      <img src=https://github.com/user-attachments/assets/45d9d29a-2475-4354-850f-9f2b75a53fc7 width="700" alt="App Preview">
+      <img src=https://github.com/user-attachments/assets/45d9d29a-2475-4354-850f-9f2b75a53fc7 width="1000" alt="App Preview">
     </td>
     <td>
       <p align="center">
