@@ -1,0 +1,3 @@
+tkinter
+PyPDF2
+requests
